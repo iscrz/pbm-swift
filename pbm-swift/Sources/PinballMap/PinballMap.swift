@@ -5,74 +5,26 @@ import Foundation
 
 struct PinballMap {
 
-//    static func getLocationMachines(locationID: String) async throws -> LocationMachines {
-//        Endpoint.locationMachineDetails(locationID)
-//        try await request(url: "https://pinballmap.com/api/v1/locations/\(pinballMapID)/machine_details.json")
-//    }
-
-    public func locationDetails(locationID: String) async throws -> LocationMachines {
-        try await get(endpoint: LocationMachinesAPI(locationID: locationID))
+    public static func requestMachines(at locationID: UInt) async throws -> [Machine] {
+        let endpoint = LocationMachinesAPI(locationID: locationID)
+        let locationMachines = try await request(endpoint: endpoint)
+        return locationMachines.machines
     }
 
-//    static func get<T: PinballMapEndpoint>(endpoint: T) async throws -> T.Response {
-//        let path = try endpoint.path
-//
-//        let url = baseURL!.appending(path: path.absoluteString)
-//
-//        let (data, _) = try await URLSession.shared.data(from: url)
-//
-//        let posts = try JSONDecoder().decode(T.Response.self, from: data)
-//        return posts
-//    }
-}
-
-enum Endpoints {
-    static func locationDetails(_ location: String) -> some PinballMapEndpoint {
-        LocationMachinesAPI(locationID: location)
+    public static func search(location name: String) async throws -> [LocationSearchResult] {
+        let endpoint = FuzzySearch(locationName: name)
+        return try await request(endpoint: endpoint)
     }
 }
 
-enum Endpoint2 {
+extension PinballMap {
+    static func request<T: Endpoint>(endpoint: T) async throws -> T.Response {
+        let url = try endpoint.url
 
-    case locationMachineDetails(String)
+        let (data, _) = try await URLSession.shared.data(from: url)
 
-    var path: URL {
-        get throws {
-            switch self {
-            case let .locationMachineDetails(locationID):
-                guard let url = URL(string:"locations/\(locationID)/machine_details.json") else {
-                    throw URLError(.badURL)
-                }
-                return url
-            }
-        }
+        let posts = try JSONDecoder().decode(T.Response.self, from: data)
+        return posts
     }
 }
 
-struct LocationMachinesAPI: PinballMapEndpoint {
-
-    typealias Response = LocationMachines
-
-    var locationID: String
-
-    var path: URL {
-        get throws {
-            guard let url = URL(string:"locations/\(locationID)/machine_details.json") else {
-                throw URLError(.badURL)
-            }
-            return url
-        }
-    }
-}
-
-protocol PinballMapEndpoint {
-    associatedtype Response: Decodable
-    var path: URL { get throws }
-}
-
-
-extension PinballMapEndpoint {
-    static func location(string: String) -> some PinballMapEndpoint {
-        LocationMachinesAPI(locationID: string)
-    }
-}

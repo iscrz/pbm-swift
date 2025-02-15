@@ -5,10 +5,10 @@
 //  Created by Isaac Ruiz on 2/15/25.
 //
 
-struct Machine: Codable {
-    let id: Int
-    let name: String
-    let year: Int
-    let manufacturer: String
-    let opdb_id: String
+public struct Machine: Codable {
+    public let id: Int
+    public let name: String
+    public let year: Int
+    public let manufacturer: String
+    public let opdb_id: String
 }
