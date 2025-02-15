@@ -7,8 +7,8 @@
 
 //[{"label":"Ground Kontrol Classic Arcade (Portland, OR)","value":"Ground Kontrol Classic Arcade","id":874}]
 
-public struct LocationSearchResult: Codable, Sendable {
+public struct LocationSearchResult: Codable, Identifiable, Sendable {
+    public let id: UInt
     public let label: String
     public let value: String
-    public let id: UInt
 }
