@@ -13,7 +13,12 @@ protocol Endpoint {
 }
 
 extension Endpoint {
-    var baseURL: URL? {
-        URL(string: "https://pinballmap.com/api/v1")
+    var baseURL: URL {
+        get throws {
+            guard let url = URL(string: "https://pinballmap.com/api/v1") else {
+                throw URLError(.badURL)
+            }
+            return url
+        }
     }
 }

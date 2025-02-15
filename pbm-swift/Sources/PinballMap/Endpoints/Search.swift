@@ -11,7 +11,7 @@ import Foundation
 
 /// https://pinballmap.com/api/v1/locations/autocomplete.json?name=%22ground%20k%22
 
-struct FuzzySearch: Endpoint {
+struct Search: Endpoint {
 
     typealias Response = [LocationSearchResult]
 
@@ -19,15 +19,9 @@ struct FuzzySearch: Endpoint {
 
     var url: URL {
         get throws {
-
-            var url = URL(string: "/locations/autocomplete.json", relativeTo: baseURL)
-            url?.append(queryItems: [.init(name: "name", value: locationName)])
-
-            guard let url else {
-                throw URLError(.badURL)
-            }
-
-            return url
+            try baseURL
+                .appending(path: "/locations/autocomplete.json")
+                .appending(queryItems: [.init(name: "name", value: locationName)])
         }
     }
 }

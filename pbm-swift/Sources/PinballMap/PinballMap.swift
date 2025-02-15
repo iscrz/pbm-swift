@@ -1,18 +1,22 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+//
+//  PinballMap.swift
+//  pbm-swift
+//
+//  Created by Isaac Ruiz on 2/15/25.
+//
 
 import Foundation
 
 struct PinballMap {
 
     public static func requestMachines(at locationID: UInt) async throws -> [Machine] {
-        let endpoint = LocationMachinesAPI(locationID: locationID)
+        let endpoint = LocationMachines(locationID: locationID)
         let locationMachines = try await request(endpoint: endpoint)
         return locationMachines.machines
     }
 
     public static func search(location name: String) async throws -> [LocationSearchResult] {
-        let endpoint = FuzzySearch(locationName: name)
+        let endpoint = Search(locationName: name)
         return try await request(endpoint: endpoint)
     }
 }

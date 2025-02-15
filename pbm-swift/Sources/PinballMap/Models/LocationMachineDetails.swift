@@ -7,6 +7,6 @@
 
 import Foundation
 
-public struct LocationMachines: Codable {
+public struct LocationMachineDetails: Codable {
     public let machines: [Machine]
 }
