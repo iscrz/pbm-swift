@@ -5,23 +5,25 @@ import Foundation
 
 struct PinballMap {
 
-    static let baseURL = URL(string: "https://pinballmap.com/api/v1/")
-
 //    static func getLocationMachines(locationID: String) async throws -> LocationMachines {
 //        Endpoint.locationMachineDetails(locationID)
 //        try await request(url: "https://pinballmap.com/api/v1/locations/\(pinballMapID)/machine_details.json")
 //    }
 
-    static func get<T: PinballMapEndpoint>(endpoint: T) async throws -> T.Response {
-        let path = try endpoint.path
-
-        let url = baseURL!.appending(path: path.absoluteString)
-
-        let (data, _) = try await URLSession.shared.data(from: url)
-
-        let posts = try JSONDecoder().decode(T.Response.self, from: data)
-        return posts
+    public func locationDetails(locationID: String) async throws -> LocationMachines {
+        try await get(endpoint: LocationMachinesAPI(locationID: locationID))
     }
+
+//    static func get<T: PinballMapEndpoint>(endpoint: T) async throws -> T.Response {
+//        let path = try endpoint.path
+//
+//        let url = baseURL!.appending(path: path.absoluteString)
+//
+//        let (data, _) = try await URLSession.shared.data(from: url)
+//
+//        let posts = try JSONDecoder().decode(T.Response.self, from: data)
+//        return posts
+//    }
 }
 
 enum Endpoints {
