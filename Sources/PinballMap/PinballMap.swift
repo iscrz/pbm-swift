@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PinballMap {
+public enum PinballMap {
 
     public static func requestMachines(at locationID: UInt) async throws -> [Machine] {
         let endpoint = LocationMachines(locationID: locationID)
