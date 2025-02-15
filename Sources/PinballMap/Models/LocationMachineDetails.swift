@@ -7,6 +7,6 @@
 
 import Foundation
 
-public struct LocationMachineDetails: Codable, Sendable {
+public struct LocationMachineDetails: Codable, Hashable, Sendable {
     public let machines: [Machine]
 }
