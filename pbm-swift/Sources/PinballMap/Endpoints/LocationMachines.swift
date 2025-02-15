@@ -11,7 +11,7 @@ struct LocationMachines: Endpoint {
 
     typealias Response = LocationMachineDetails
 
-    var locationID: UInt
+    let locationID: UInt
 
     var url: URL {
         get throws {

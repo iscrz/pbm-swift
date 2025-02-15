@@ -15,7 +15,7 @@ struct Search: Endpoint {
 
     typealias Response = [LocationSearchResult]
 
-    var locationName: String
+    let locationName: String
 
     var url: URL {
         get throws {
