@@ -5,7 +5,7 @@
 //  Created by Isaac Ruiz on 2/15/25.
 //
 
-public struct Machine: Codable {
+public struct Machine: Codable, Sendable {
     public let id: Int
     public let name: String
     public let year: Int
