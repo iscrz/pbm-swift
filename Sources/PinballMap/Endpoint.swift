@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  Endpoint.swift
 //  pbm-swift
 //
 //  Created by Isaac Ruiz on 2/15/25.
@@ -11,29 +11,28 @@ public struct Endpoint<T: Codable> {
 
     let url: URL
 
-    init(urlBuilder: (URL) -> URL) throws {
+    init(path: String) throws {
+        self.url = try PinballMap.baseURL
+            .appending(path: path)
+    }
 
-        guard let url = URL(string: "https://pinballmap.com/api/v1") else {
-            throw URLError(.badURL)
-        }
-        
-        self.url = urlBuilder(url)
+    init(path: String, queryItems: URLQueryItem ...) throws {
+        self.url = try PinballMap.baseURL
+            .appending(path: path)
+            .appending(queryItems: queryItems)
     }
 }
 
 extension Endpoint {
 
-    public static func locationMachines(id: UInt) throws -> Endpoint<LocationMachineDetails> {
-        try Endpoint<LocationMachineDetails> { url in
-            url.appending(path: "/locations/\(id)/machine_details.json")
-        }
+    public static func locationMachines(id: UInt) throws -> Endpoint<LocationMachines> {
+        try Endpoint<LocationMachines>(path: "/locations/\(id)/machine_details.json")
     }
 
-    public static func search(query: String) throws -> Endpoint<LocationSearchResult> {
-        try Endpoint<LocationSearchResult> { url in
-            url
-                .appending(path: "/locations/autocomplete.json")
-                .appending(queryItems: [.init(name: "name", value: query)])
-        }
+    public static func search(locationName: String) throws -> Endpoint<[LocationSearchResult]> {
+        try Endpoint<[LocationSearchResult]>(
+            path: "/locations/autocomplete.json",
+            queryItems: .init(name: "name", value: locationName)
+        )
     }
 }
