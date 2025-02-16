@@ -13,10 +13,9 @@ struct EndpointTests {
         10238833
     ])
     func locationMachines(_ id: UInt) async throws {
-        let endpoint = LocationMachines(locationID: id)
-        #expect(endpoint.locationID == id)
+        let endpoint = try #require(try Endpoint<Int>.locationMachines(id: id))
 
-        let url = try #require(try endpoint.url)
+        let url = endpoint.url
         let expected = try #require(URL(string: "https://pinballmap.com/api/v1/locations/\(id)/machine_details.json"))
         #expect(url.absoluteString == expected.absoluteString)
     }
@@ -30,8 +29,7 @@ struct EndpointTests {
     ])
     func fuzzySearch(_ query: String) async throws {
 
-        let endpoint = Search(locationName: query)
-        #expect(endpoint.locationName == query)
+        let endpoint = try #require(try Endpoint<Int>.search(query: query))
 
         let url = try #require(try endpoint.url)
         var expected = try #require(URL(string: "https://pinballmap.com/api/v1/locations/autocomplete.json"))
