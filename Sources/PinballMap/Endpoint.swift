@@ -1,6 +1,6 @@
 //
 //  Endpoint.swift
-//  pbm-swift
+//  PinballMap
 //
 //  Created by Isaac Ruiz on 2/15/25.
 //
@@ -25,10 +25,12 @@ public struct Endpoint<T: Codable> {
 
 extension Endpoint {
 
+    /// Display the details of the machines at this location
     public static func locationMachines(id: UInt) throws -> Endpoint<LocationMachines> {
         try Endpoint<LocationMachines>(path: "/locations/\(id)/machine_details.json")
     }
 
+    /// Send back fuzzy search results of search params
     public static func search(locationName: String) throws -> Endpoint<[LocationSearchResult]> {
         try Endpoint<[LocationSearchResult]>(
             path: "/locations/autocomplete.json",

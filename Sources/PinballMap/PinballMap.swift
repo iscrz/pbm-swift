@@ -1,6 +1,6 @@
 //
 //  PinballMap.swift
-//  pbm-swift
+//  PinballMap
 //
 //  Created by Isaac Ruiz on 2/15/25.
 //
